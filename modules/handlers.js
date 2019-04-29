@@ -1,21 +1,22 @@
 const fs = require('fs');
 const formidable = require('formidable');
-
+let lastFile;
 exports.upload = function (request, response) {
     console.log('Rozpoczyniam obsługę żądania upload.');
     let form = new formidable.IncomingForm();
     form.parse(request, (error, fields, files) => {
-        console.log(files.upload.name);
         fs.renameSync(files.upload.path, files.upload.name);
-        response.writeHead(200, { 'Content-Type': 'text/html' });
-        response.write('Recieved image:<br>');
-        response.write('<img src="/show">');
-        response.end();
+        lastFile = files.upload.name;
+        fs.readFile('templates/upload.html', (err, html) => {
+            response.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+            response.write(html);
+            response.end();
+        });
     });
 }
 
 exports.show = function (request, response) {
-    fs.readFile('test.png', 'binary', (err, file) => {
+    fs.readFile(lastFile, 'binary', (err, file) => {
         response.writeHead(200, { 'Content-Type': 'image/png' });
         response.write(file, 'binary');
         response.end();
@@ -35,4 +36,11 @@ exports.error = function (request, response) {
     console.log('Nie wiem co robić.');
     response.write('404');
     response.end();
+}
+exports.css = function (request, response) {
+    fs.readFile('style.css', (err, css) => {
+        response.writeHead(200, { 'Content-Type': 'text/css; charset=utf-8' });
+        response.write(css);
+        response.end();
+    });
 }
