@@ -37,6 +37,7 @@ exports.error = function (request, response) {
     response.write('404');
     response.end();
 }
+
 exports.css = function (request, response) {
     fs.readFile('style.css', (err, css) => {
         response.writeHead(200, { 'Content-Type': 'text/css; charset=utf-8' });
