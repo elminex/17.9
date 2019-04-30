@@ -11,13 +11,11 @@
     <h1 class="title">Wgraj plik</h1>
     <div class="container">
         <form class="upload-form" action="/upload" enctype="multipart/form-data" method="POST">
-            <label>Tytuł pliku</label>
-            <input type="text" name="title">
-            <br>
-            <label>Plik</label>
-            <input type="file" name="upload" multiple="multiple">
-            <br>
-        <input type="submit" value="Wyślij">
+            <label for="title">Tytuł pliku:</label>
+            <input type="text" id="title" name="title">
+            <label for="file">Plik:</label>
+            <input type="file" id="file" name="upload" multiple="multiple" accept="image/*" required>
+            <input class="submit-btn" type="submit" value="Wyślij">
         </form>
     </div>
 </body>
